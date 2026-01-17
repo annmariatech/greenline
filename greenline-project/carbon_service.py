@@ -10,17 +10,17 @@ def get_carbon_intensity():
     
     try:
         response = requests.get(url, headers=headers)
-        response.raise_for_status() # Check for errors
+        response.raise_for_status()
         data = response.json()
         
-        # Extract the 'actual' intensity from the JSON response
+        
         actual_intensity = data['data'][0]['intensity']['actual']
         
-        # If 'actual' is missing (can happen), use 'forecast'
+        #forecast as backup
         if actual_intensity is None:
             actual_intensity = data['data'][0]['intensity']['forecast']
             
         return actual_intensity
     except Exception as e:
         print(f"⚠️ Error fetching carbon data: {e}")
-        return 500  # Default to 'High' intensity if API fails (safety first!)
+        return 500  # default to high intensity if API fails
